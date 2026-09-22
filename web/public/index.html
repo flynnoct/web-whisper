@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Whisper 文件转写 Web UI" />
+    <title>Web Whisper</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="masthead">
+        <div>
+          <p class="eyebrow">SELF-HOSTED SPEECH TO TEXT</p>
+          <h1>Web Whisper</h1>
+          <p class="subtitle">上传音频、视频，或直接录音，交给你的 GPU Whisper 服务转写。</p>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <form id="transcription-form" class="upload-card">
+          <div class="section-title-row">
+            <div>
+              <p class="kicker">TRANSCRIBE</p>
+              <h2>新建转写</h2>
+            </div>
+          </div>
+
+          <label id="drop-zone" class="drop-zone" for="file-input">
+            <input id="file-input" name="file" type="file" accept="audio/*,video/*" required />
+            <span class="upload-icon">↑</span>
+            <strong id="file-label">拖放文件到这里</strong>
+            <span id="file-help">或点击选择音频 / 视频文件</span>
+          </label>
+
+          <div class="recording-controls">
+            <div>
+              <strong>直接录音</strong>
+              <span id="recording-help">使用浏览器麦克风录制后即可转写</span>
+            </div>
+            <button id="record-button" class="record-button" type="button" aria-pressed="false">开始录音</button>
+          </div>
+
+          <div class="field-row">
+            <label>
+              <span>模型</span>
+              <select id="model-select" name="model">
+                <option value="large-v3">large-v3</option>
+              </select>
+            </label>
+            <label>
+              <span>语言（可选）</span>
+              <input name="language" type="text" maxlength="16" placeholder="自动检测，如 zh / en" />
+            </label>
+          </div>
+
+          <button id="submit-button" class="primary-button" type="submit">开始转写</button>
+          <div id="progress" class="progress" hidden>
+            <span></span>
+            <p>正在上传并转写，大模型首次加载可能需要一些时间…</p>
+          </div>
+          <p id="form-error" class="error-message" role="alert"></p>
+        </form>
+
+        <section class="result-card" aria-labelledby="result-heading">
+          <div class="section-title-row">
+            <div>
+              <p class="kicker">RESULT</p>
+              <h2 id="result-heading">转写结果</h2>
+            </div>
+            <button id="copy-button" class="text-button" type="button" disabled>复制文字</button>
+          </div>
+          <div id="empty-result" class="empty-result">完成转写后，文字会显示在这里。</div>
+          <textarea id="result-text" aria-label="转写结果" readonly hidden></textarea>
+          <div id="result-meta" class="result-meta" hidden></div>
+        </section>
+      </section>
+
+      <section class="status-card" aria-labelledby="status-heading">
+        <div class="section-title-row">
+          <div>
+            <p class="kicker">BACKEND</p>
+            <h2 id="status-heading">服务状态</h2>
+          </div>
+          <div class="status-actions">
+            <span id="status-badge" class="status-badge checking"><i></i>检测中</span>
+            <button id="refresh-status" class="ghost-button" type="button">刷新状态</button>
+          </div>
+        </div>
+        <div class="status-grid">
+          <div><span>设备</span><strong id="device">—</strong></div>
+          <div><span>后端 Base URL</span><strong id="backend-base-url">—</strong></div>
+          <div><span>已加载</span><strong id="loaded-models">—</strong></div>
+        </div>
+        <p id="status-message" class="status-message" role="status"></p>
+      </section>
+    </main>
+    <script src="/app.js" defer></script>
+  </body>
+</html>

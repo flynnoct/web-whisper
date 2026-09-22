@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+
+# Local environments and secrets
+.env
+.venv/
+venv/
+
+# Whisper model weights and temporary uploads
+models/
+*.pt
+
+# Test and tooling caches
+.pytest_cache/
+.coverage

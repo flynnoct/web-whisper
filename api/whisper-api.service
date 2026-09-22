@@ -1,0 +1,16 @@
+[Unit]
+Description=Whisper GPU HTTP API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/web-whisper/api
+EnvironmentFile=%h/web-whisper/api/.env
+ExecStart=%h/web-whisper/api/.venv/bin/uvicorn app:app --host 0.0.0.0 --port 8001 --workers 1
+Restart=always
+RestartSec=5
+TimeoutStartSec=1800
+
+[Install]
+WantedBy=default.target
